@@ -1,0 +1,84 @@
+// Created by: [JVTTM]
+// Date: 2024-06-14
+// Ttle: C++: Dice Roller Game
+// Description: A simple dice rolling simulator that allows the user to roll a die multiple times and displays the results.
+
+
+#include <iostream>
+#include <random>
+#include <chrono>
+using namespace std;
+
+int main(){
+	// Initialize a boolean variable to control the game loop
+	bool playing = true;
+
+	// Seed the random number generator with the current time
+	while (playing) {
+		// Declare variables for user input and the number of rolls
+		char play;
+		int rolls;
+		int i = 0;
+
+		// Create a random number generator
+		std::mt19937 generator(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+		int min_val = 1;
+		int max_val = 6;
+		uniform_int_distribution<int> distribution(min_val, max_val);
+
+		// Prompt the user to play the game
+		bool validInput = false;
+		// Loop until a valid input is received
+		while (!validInput) {
+			cout << "Would you like to play(Y/N): ";
+			cin >> play;
+			// Convert the input to lowercase for case-insensitive comparison
+			play = tolower(play);
+
+			// Validate the input to ensure it is either 'y' or 'n'
+			if (play == 'y' || play == 'n') {
+				validInput = true;
+			}
+
+			else {
+				cout << "Invalid Input. Please enter Y or N. \n";
+			}
+		}
+
+		// If the user chooses to play, ask for the number of rolls and display the results
+		switch (play) {
+		// Case: User chooses to play
+		case 'y':
+			// Prompt the user for the number of rolls
+			cout << "Enter the number of rolls: ";
+			cin >> rolls;
+
+			// Validate the number of rolls input
+			while (rolls <= 0) {
+				// If the input is invalid, prompt the user again
+				cout << "Invalid Input. Please enter a valid input.\n";
+				cout << "Enter the number of rolls: ";
+				cin >> rolls;
+			}
+
+
+			// Loop through the number of rolls and generate random numbers
+			for (i = 1;i <= rolls;i++) {
+				// Generate a random number between 1 and 6
+				int random_num = distribution(generator);
+				// Display the result of each roll
+				cout << "Roll " << i << ": " << random_num << endl;
+			}
+			// Ask the user if they want to play again
+			break;
+
+		// Case: User chooses not to play
+		case 'n':
+			cout << "Thank you for playing. Goodbye.";
+			playing = false;
+			break;
+		}
+	}
+}
+
+// End of C++:Dice Roller Game.cpp
