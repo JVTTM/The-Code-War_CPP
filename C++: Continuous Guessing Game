@@ -1,0 +1,46 @@
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <ctime>
+#include <cstdlib>
+using namespace std;
+int main()
+{
+	srand(static_cast<unsigned int>(time(0)));
+	cout << "==========Guessing Game=========="<<endl;
+
+	while (true) {
+		int answer = 1+(rand()% (100-1)+1);
+		int guess;
+		char retry;
+
+		cout << "Please enter a guess between 1 and 100: ";
+		cin >> guess;
+		if (guess < 1 || guess>100) {
+			cout << "Invalid input" << endl;
+		}
+		else {
+				while(guess != answer) {
+					if (guess < answer) {
+						cout << "Your guess was too low." << endl;
+					}
+					else {
+						cout << "Your guess was too high." << endl;
+					}
+					cout << "Please guess again:";
+					cin >> guess;
+				}
+				cout << "Your guess was correct!" << endl;
+				cout << "Would you like to play again(Y/N): ";
+				cin >> retry;
+				if (tolower(retry) == 'y') {
+					continue;
+				}
+				else {
+					cout << "Thank you for playing :)" << endl;
+					break;
+				}
+			}
+		}
+	return 0;
+	}
