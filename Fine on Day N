@@ -1,0 +1,23 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int days_to_reach_fine(double D) {
+	if (D <= 10.0L)
+		return 1;
+
+	double logD = log10(D);
+	double log2logD = log2(logD);
+
+	int N = ceil(log2logD + 1);
+	return N;
+}
+
+int main()
+{
+	double D;
+	cout << "Please enter the fine amount:";
+	cin >> D;
+	int day = days_to_reach_fine(D);
+	cout << "Minimum days to reach " << D << " is approximately " << day << " day/days" << endl;
+}
