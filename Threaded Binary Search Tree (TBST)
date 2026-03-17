@@ -1,0 +1,92 @@
+#include <iostream>
+using namespace std;
+
+struct ThreadedNode {
+    int data;
+    ThreadedNode* left;
+    ThreadedNode* right;
+    bool ThreadedLeft;
+    bool ThreadedRight;
+};
+
+ThreadedNode* insert(ThreadedNode* root, int key) {
+    ThreadedNode* parent = nullptr;
+    ThreadedNode* current = root;
+
+    while (current != nullptr) {
+        if (key == current->data)
+            return root;
+
+        parent = current;
+
+        if (key < current->data) {
+            if (!current->ThreadedLeft)
+                current = current->left;
+            else
+                break;
+        }
+        else {
+            if (!current->ThreadedRight)
+                current = current->right;
+            else
+                break;
+        }
+    }
+
+    ThreadedNode* newNode = new ThreadedNode();
+    newNode->data = key;
+    newNode->ThreadedLeft = newNode->ThreadedRight = true;
+
+    if (parent == nullptr) {
+        root = newNode;
+        newNode->left = newNode->right = nullptr;
+    }
+    else if (key < parent->data) {
+        newNode->left = parent->left;
+        newNode->right = parent;
+        parent->ThreadedLeft = false;
+        parent->left = newNode;
+    }
+    else {
+        newNode->left = parent;
+        newNode->right = parent->right;
+        parent->ThreadedRight = false;
+        parent->right = newNode;
+    }
+    return root;
+}
+
+void inorder(ThreadedNode* root) {
+    ThreadedNode* current = root;
+    while (current != nullptr && !current->ThreadedLeft)
+        current = current->left;
+
+    while (current != nullptr) {
+        cout << current->data << " ";
+
+        if (current->ThreadedRight) {
+            current = current->right;
+        }
+        else {
+            current = current->right;
+            while (current != nullptr && !current->ThreadedLeft)
+                current = current->left;
+        }
+    }
+}
+
+int main() {
+    ThreadedNode* root = nullptr;
+
+    root = insert(root, 25);
+    root = insert(root, 10);
+    root = insert(root, 20);
+    root = insert(root, 5);
+    root = insert(root, 15);
+    root = insert(root, 30);
+
+    cout << "Traversal of a Threaded Binary Tree:\n";
+    inorder(root);
+
+    return 0;
+}
