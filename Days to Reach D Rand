@@ -1,0 +1,17 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+double DayNFine(int N) {
+    double exponent = pow(2.0L, N - 1);
+    double result = pow(10., exponent);
+    return result;
+}
+
+int main()
+{
+    int N;
+    cout << "Enter day number: ";
+    cin >> N;
+    cout << "The fine on day " << N << " is " << DayNFine(N) << endl;
+}
