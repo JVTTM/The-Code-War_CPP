@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+	int id;
+	Node* next;
+	Node(int _id) : id(_id), next(nullptr) {}
+};
+
+int JosephusProblem(int N, int M) {
+	Node* head = new Node(1);
+	Node* previous = head;
+	for (int i = 2; i <= N; ++i) {
+		Node* newNode = new Node(i);
+		previous->next = newNode;
+		previous = newNode;
+	}
+	previous->next = head;
+
+	Node* current = head;
+	while (current->next != current) {
+		for (int i = 1; i < M; ++i) {
+			current = current->next;
+		}
+		Node* toDelete = current->next;
+		current->next = toDelete->next;
+		delete toDelete;
+		current = current->next;
+	}
+
+	int winner = current->id;
+	delete current;
+	return winner;
+
+}
+
+int main() {
+	int N;
+	int M;
+	cout << "Enter the number of players: ";
+	cin>>N;
+	cout << "Enter the number of skips between each player: ";
+	cin >> M;
+	cout << "The winner of the game is player " << JosephusProblem(N, M) << endl;
+}
