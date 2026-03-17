@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class SelfAdjustingList {
+private:
+	vector<int> array;
+
+public:
+	void insert(int x) {
+		array.insert(array.begin(), x);
+	}
+
+	bool find(int x) {
+		for (size_t i = 0; i < array.size(); ++i) {
+			if (array[i] == x) {
+				int found = array[i];
+				array.erase(array.begin() + i);
+				array.insert(array.begin(), found);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void print() {
+		for (auto arr : array) {
+			cout << arr << " ";
+		}
+		cout << endl;
+	}
+};
+
+int main(){
+	SelfAdjustingList list;
+
+	list.insert(13);
+	list.insert(20);
+	list.insert(18);
+	list.insert(10);
+	
+	cout << "List after inserting values: ";
+	list.print();
+
+	list.find(20);
+	cout << "List after accessing a element using find: ";
+	list.print();
+
+	return 0;
+}
